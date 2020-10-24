@@ -1,0 +1,41 @@
+name:                vultr-hs
+version:             0.1.0.0
+github:              "aufarg/vultr-hs"
+license:             BSD3
+author:              "Aufar Gilbran"
+maintainer:          "aufargilbran@gmail.com"
+copyright:           "MIT"
+
+dependencies:
+- base >= 4.7 && < 5
+- aeson
+- bytestring
+- containers
+- lens
+- text
+- wreq
+
+library:
+  source-dirs: src
+
+executables:
+  vultr:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - vultr-hs
+
+tests:
+  vultr-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - vultr-hs
