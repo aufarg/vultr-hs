@@ -1,11 +1,25 @@
 {-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
-import Vultr
+import Options.Applicative
+import Data.Semigroup ((<>))
 
--- auth :: Auth
--- auth = VultrAuth "<API KEY>"
+import qualified Vultr as V
+
+auth :: V.Auth
+auth = V.Auth "<API KEY>"
+
+makeConfig :: V.Config
+makeConfig = V.Config { V.authentication = auth, V.timeout = 30 }
+
+cmd :: Parser String
+cmd = argument str (metavar "resource")
 
 main :: IO ()
 main = do
-  servers <- execute auth $ serverList
+    cmd <- execParser $ info cmd fullDesc
+    case cmd of
+        "servers" -> do
+            V.execute makeConfig V.serverList
+            return ()
